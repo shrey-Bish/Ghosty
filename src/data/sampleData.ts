@@ -1,4 +1,4 @@
-import { Contact, EventInfo } from '../types';
+import { Contact, EventCompany, EventInfo, MeetingLog, UserProfile } from '../types';
 
 export const currentEvent: EventInfo = {
   id: 'event-asu-kiro',
@@ -11,6 +11,60 @@ export const userContext = {
   careerGoal: 'Land a product or growth role',
   targetRoles: ['Product', 'PM', 'Growth', 'Engineer']
 };
+
+export const breadcrumbProfile: UserProfile = {
+  name: 'Alex Rivera',
+  headline: 'Product-minded builder focused on growth systems',
+  careerGoal: 'Land a product or growth role',
+  resumeName: 'Alex_Rivera_Resume.pdf',
+  resumeSummary:
+    'Built analytics dashboards, shipped AI workflow prototypes, and led growth experiments for student-founder tools.',
+  topSkills: ['Product strategy', 'Growth analytics', 'AI prototyping', 'React Native', 'SQL'],
+  targetRoles: ['Product Manager', 'Growth PM', 'AI Product Builder']
+};
+
+export const eventBattlePlan: EventCompany[] = [
+  {
+    id: 'stripe',
+    name: 'Stripe',
+    booth: 'B12',
+    hiringSignal: 'Consumer growth PM roles open',
+    priority: 'High',
+    whyTarget: 'Matches product strategy, growth analytics, and fintech curiosity.',
+    talkingPoints: ['Ask about consumer growth loops', 'Mention dashboard experiments', 'Ask who owns data team hiring']
+  },
+  {
+    id: 'google',
+    name: 'Google',
+    booth: 'A04',
+    hiringSignal: 'Infra and AI platform teams recruiting',
+    priority: 'High',
+    whyTarget: 'Strong fit for AI prototyping and systems-facing product work.',
+    talkingPoints: ['Ask about AI workflow tooling', 'Reference React Native prototype work', 'Ask about early career PM paths']
+  },
+  {
+    id: 'devseed',
+    name: 'DevSeed',
+    booth: 'C08',
+    hiringSignal: 'Climate data partnership conversations',
+    priority: 'Medium',
+    whyTarget: 'Good collaboration target for analytics, maps, and open-source tooling.',
+    talkingPoints: ['Ask about climate data workflows', 'Mention SQL/dashboard skills', 'Explore open-source contribution']
+  }
+];
+
+export const sampleMeetingLogs: MeetingLog[] = [
+  {
+    id: 'log-priya-1',
+    source: 'voice',
+    assignedContactId: 'contact-priya',
+    summary:
+      'Priya discussed Stripe consumer growth, May 15 timing, and a possible warm path to the data team hiring manager.',
+    keyPoints: ['Consumer growth role in SF', 'Follow up after May 15', 'Knows data team hiring manager'],
+    actionItems: ['Send a concise product/growth profile', 'Reference analytics dashboard experience'],
+    createdAt: '2026-04-24T18:08:00.000Z'
+  }
+];
 
 export const sampleContacts: Contact[] = [
   {

@@ -49,6 +49,42 @@ export interface EventInfo {
   location: string;
 }
 
+export interface UserProfile {
+  name: string;
+  headline: string;
+  careerGoal: string;
+  resumeName: string;
+  resumeSummary: string;
+  topSkills: string[];
+  targetRoles: string[];
+}
+
+export interface EventCompany {
+  id: string;
+  name: string;
+  booth: string;
+  hiringSignal: string;
+  priority: 'High' | 'Medium' | 'Low';
+  whyTarget: string;
+  talkingPoints: string[];
+}
+
+export interface MeetingLog {
+  id: string;
+  source: 'voice' | 'zoom' | 'manual';
+  assignedContactId: string;
+  summary: string;
+  keyPoints: string[];
+  actionItems: string[];
+  createdAt: string;
+}
+
+export interface NetworkSearchResult {
+  contact: Contact;
+  reason: string;
+  suggestedAsk: string;
+}
+
 export interface ExtractedContactCard {
   name: string;
   company: string | null;
@@ -61,4 +97,4 @@ export interface ExtractedContactCard {
   estimatedSeniority: 'junior' | 'mid' | 'senior' | 'director' | 'vp' | 'c-suite' | 'unknown';
 }
 
-export type AppTab = 'home' | 'followup' | 'dashboard' | 'qr';
+export type AppTab = 'home' | 'prep' | 'followup' | 'dashboard' | 'wand' | 'qr';

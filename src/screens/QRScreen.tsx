@@ -17,12 +17,12 @@ export function QRScreen() {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <Text style={styles.title}>Quick Add</Text>
+        <Text style={styles.title}>Breadcrumb QR</Text>
         <Text style={styles.subtitle}>Swap identity first, capture context after.</Text>
       </View>
 
       <View style={styles.qrCard}>
-        <Text style={styles.cardLabel}>Your Ghosty Code</Text>
+        <Text style={styles.cardLabel}>Your Breadcrumb Code</Text>
         <View style={styles.qr}>
           {qrCells.map((active, index) => (
             <View key={index} style={[styles.qrCell, active && styles.qrCellActive]} />
@@ -50,7 +50,7 @@ export function QRScreen() {
         <View style={[styles.corner, styles.cornerTopRight]} />
         <View style={[styles.corner, styles.cornerBottomLeft]} />
         <View style={[styles.corner, styles.cornerBottomRight]} />
-        <Text style={styles.scanText}>Point at someone's Ghosty QR code</Text>
+        <Text style={styles.scanText}>Point at someone's Breadcrumb QR code</Text>
       </View>
 
       <Text style={styles.emailLink}>Enter email instead</Text>

@@ -1,22 +1,26 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { BarChart3, Home, MessageCircle, QrCode } from 'lucide-react-native';
+import { Home, MessageCircle, QrCode, Sparkles, WandSparkles } from 'lucide-react-native';
 
+import { sampleMeetingLogs } from './src/data/sampleData';
 import { useContactQueue } from './src/hooks/useContactQueue';
 import { useFollowUpAlerts } from './src/hooks/useFollowUpAlerts';
 import { ContactDetailScreen } from './src/screens/ContactDetailScreen';
 import { DashboardScreen } from './src/screens/DashboardScreen';
 import { FollowUpScreen } from './src/screens/FollowUpScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
+import { PrepScreen } from './src/screens/PrepScreen';
 import { QRScreen } from './src/screens/QRScreen';
+import { WandScreen } from './src/screens/WandScreen';
 import { colors } from './src/theme/colors';
-import { AppTab, Contact } from './src/types';
+import { AppTab, Contact, MeetingLog } from './src/types';
 
 const tabs: Array<{ value: AppTab; label: string; icon: typeof Home }> = [
-  { value: 'home', label: 'Home', icon: Home },
+  { value: 'prep', label: 'Prep', icon: Sparkles },
+  { value: 'home', label: 'Capture', icon: Home },
   { value: 'followup', label: 'Follow Up', icon: MessageCircle },
-  { value: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+  { value: 'wand', label: 'Wand', icon: WandSparkles },
   { value: 'qr', label: 'QR', icon: QrCode }
 ];
 
@@ -33,6 +37,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<AppTab>('home');
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [draftContact, setDraftContact] = useState<Contact | null>(null);
+  const [meetingLogs, setMeetingLogs] = useState<MeetingLog[]>(sampleMeetingLogs);
 
   const openTab = (tab: AppTab) => {
     setSelectedContact(null);
@@ -52,6 +57,11 @@ export default function App() {
       onBack={() => setSelectedContact(null)}
       onDraft={openDraft}
     />
+  ) : activeTab === 'prep' ? (
+    <PrepScreen
+      contacts={contacts}
+      onLogCreated={(log) => setMeetingLogs((existing) => [log, ...existing])}
+    />
   ) : activeTab === 'home' ? (
     <HomeScreen
       contacts={contacts}
@@ -70,6 +80,8 @@ export default function App() {
     />
   ) : activeTab === 'dashboard' ? (
     <DashboardScreen contacts={contacts} atRiskContacts={atRiskContacts} onNavigate={openTab} />
+  ) : activeTab === 'wand' ? (
+    <WandScreen contacts={contacts} meetingLogs={meetingLogs} onOpenContact={setSelectedContact} />
   ) : (
     <QRScreen />
   );
@@ -135,7 +147,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 }
   },
   navItem: {
-    minWidth: 68,
+    minWidth: 58,
     minHeight: 58,
     alignItems: 'center',
     justifyContent: 'center',
