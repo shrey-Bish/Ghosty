@@ -20,6 +20,11 @@ interface HomeScreenProps {
   onNavigate: (tab: AppTab) => void;
 }
 
+/** Return the audio URI for transcription, falling back to demo when no real recording exists. */
+function resolveAudioUri(uri: string | null): string {
+  return uri ?? 'demo://voice-memo';
+}
+
 export function HomeScreen({
   contacts,
   currentEvent,
@@ -36,14 +41,15 @@ export function HomeScreen({
     setError(null);
 
     if (recorder.status === 'idle') {
-      recorder.startRecording();
+      await recorder.startRecording();
       return;
     }
 
     if (recorder.status === 'recording') {
-      recorder.stopRecording();
+      await recorder.stopRecording();
       try {
-        const transcript = await transcribeAudio('demo://voice-memo');
+        const uri = resolveAudioUri(recorder.audioUri);
+        const transcript = await transcribeAudio(uri);
         const contact = await createContactFromTranscript(transcript);
         setPendingContact(contact);
       } catch (processingError) {

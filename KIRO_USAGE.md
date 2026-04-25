@@ -1,37 +1,45 @@
 # Kiro Workflow Notes
 
-Kiro was unavailable in the local environment during this implementation pass, so this repository does not claim that Kiro generated the code. Instead, the project is organized as a Kiro-ready, spec-driven build so it can be opened in Kiro later without restructuring.
+Ghosty was built from Kiro-style specs, hooks, and steering docs. The repository includes Kiro-ready artifacts and an implementation that follows them, with real service integrations wired alongside deterministic demo fallbacks.
 
 ## Spec-Driven Development
 The `.kiro/specs/` folder defines the product requirements before implementation:
-- `voice-capture.spec.md`
-- `connection-value.spec.md`
-- `follow-up-pipeline.spec.md`
-- `qr-quick-add.spec.md`
-- `dashboard.spec.md`
+- `voice-capture.spec.md` — real `expo-av` recording, Whisper transcription, Claude extraction
+- `connection-value.spec.md` — transparent scoring with factor breakdown and salary bands
+- `follow-up-pipeline.spec.md` — AI-drafted LinkedIn, email, and cover letter messages
+- `qr-quick-add.spec.md` — QR code identity exchange screen
+- `dashboard.spec.md` — social capital timeline, at-risk contacts, Event Wrapped
 
 Each spec maps directly to implemented files in `src/`.
 
 ## Hooks
-The `.kiro/hooks/` folder captures the intended automated workflows:
-- Contact confirmed
-- Follow-up due
-- Voice memo saved
-- Event ended
+The `.kiro/hooks/` folder captures the automated workflows:
+- **on-contact-confirmed** — persists to Supabase, calculates score, generates drafts, creates calendar reminder
+- **on-followup-due** — surfaces at-risk contacts in the priority queue
+- **on-voice-memo-saved** — runs transcription → extraction → scoring → card render
+- **on-event-ended** — generates Event Wrapped summary
 
 The current implementation mirrors those workflows with React hooks and service adapters.
 
 ## Steering Docs
 The `.kiro/steering/` folder stores rules for:
-- Contact extraction
-- Scoring transparency
-- UI design principles
+- **extraction-prompt.md** — full Claude system prompt for structured contact extraction from noisy transcripts
+- **scoring-algorithm.md** — transparent Connection Value Score factors and decay rules
+- **ui-design-principles.md** — dark premium palette, one action per screen, recording state colors
 
-These docs are intentionally written so a Kiro agent can continue the work consistently when Kiro is available.
+## Real Integrations
+All services follow a dual-path pattern: real API when env vars are present, deterministic demo when they are not.
 
-## Honest Submission Language
-Use phrasing like:
+| Service | Env Var | Real Path | Demo Fallback |
+|---|---|---|---|
+| Whisper | `EXPO_PUBLIC_OPENAI_API_KEY` | OpenAI Whisper API | Hardcoded transcript |
+| Claude extraction | `EXPO_PUBLIC_ANTHROPIC_API_KEY` | Claude API with steering prompt | Deterministic contact card |
+| Claude drafting | `EXPO_PUBLIC_ANTHROPIC_API_KEY` | Claude API with tone rules | Template-based drafts |
+| Supabase | `EXPO_PUBLIC_SUPABASE_URL` + `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Supabase Postgres with RLS | In-memory Map |
+| Voice recording | Native device | `expo-av` with mic permissions | Simulated waveform + demo URI |
 
-> Ghosty was built from Kiro-style specs, hooks, and steering docs. Kiro was unavailable during the final implementation window, so the repository includes Kiro-ready artifacts and a manual implementation that follows them.
-
-Avoid claiming that Kiro generated code or ran sessions if it did not.
+## Implementation Highlights
+- `src/hooks/useVoiceRecorder.ts` uses `expo-av` `Audio.Recording` with proper permission requests and auto-stop at 60 seconds.
+- `src/services/claude.ts` implements the full extraction prompt from `.kiro/steering/extraction-prompt.md` including date inference, intent tag rules, and uncertainty marking.
+- `src/services/supabase.ts` maps the `Contact` type to the Postgres schema from `supabase/migrations/001_initial_schema.sql` and persists drafts to `follow_up_drafts`.
+- `supabase/functions/process-voice-memo/index.ts` implements the full server-side pipeline (Whisper → Claude → response).

@@ -4,7 +4,7 @@ import { currentEvent, sampleContacts, userContext } from '../data/sampleData';
 import { draftFollowUp, extractContactFromTranscript } from '../services/claude';
 import { createFollowUpReminder } from '../services/calendar';
 import { calculateConnectionValue, rankFollowUps } from '../services/scoring';
-import { saveContact } from '../services/supabase';
+import { markContactFollowedUp, saveContact, saveDrafts } from '../services/supabase';
 import { Contact, ExtractedContactCard } from '../types';
 
 export function useContactQueue() {
@@ -19,7 +19,10 @@ export function useContactQueue() {
 
   const confirmContact = useCallback(async (contact: Contact) => {
     setContacts((existing) => [contact, ...existing.filter((item) => item.id !== contact.id)]);
+
+    // Persist to Supabase (no-op in demo mode)
     await saveContact(contact);
+    await saveDrafts(contact.id, contact.draftMessages);
 
     if (contact.followUpDate) {
       await createFollowUpReminder(contact);
@@ -32,6 +35,8 @@ export function useContactQueue() {
         contact.id === contactId ? { ...contact, followedUpAt: new Date().toISOString() } : contact
       )
     );
+    // Persist to Supabase (no-op in demo mode)
+    markContactFollowedUp(contactId).catch(() => undefined);
   }, []);
 
   return {
