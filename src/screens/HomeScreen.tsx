@@ -46,9 +46,9 @@ export function HomeScreen({
     }
 
     if (recorder.status === 'recording') {
-      await recorder.stopRecording();
+      const stoppedAudioUri = await recorder.stopRecording();
       try {
-        const uri = resolveAudioUri(recorder.audioUri);
+        const uri = resolveAudioUri(stoppedAudioUri ?? recorder.audioUri);
         const transcript = await transcribeAudio(uri);
         const contact = await createContactFromTranscript(transcript);
         setPendingContact(contact);

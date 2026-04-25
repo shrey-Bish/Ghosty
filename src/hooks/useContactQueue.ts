@@ -1,16 +1,32 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { currentEvent, sampleContacts, userContext } from '../data/sampleData';
 import { draftFollowUp, extractContactFromTranscript } from '../services/claude';
 import { createFollowUpReminder } from '../services/calendar';
 import { calculateConnectionValue, rankFollowUps } from '../services/scoring';
-import { markContactFollowedUp, saveContact, saveDrafts } from '../services/supabase';
+import { listContacts, markContactFollowedUp, saveContact, saveDrafts } from '../services/supabase';
 import { Contact, ExtractedContactCard } from '../types';
 
 export function useContactQueue() {
   const [contacts, setContacts] = useState<Contact[]>(sampleContacts);
 
   const rankedContacts = useMemo(() => rankFollowUps(contacts), [contacts]);
+
+  useEffect(() => {
+    let active = true;
+
+    listContacts()
+      .then((storedContacts) => {
+        if (active && storedContacts.length > 0) {
+          setContacts(storedContacts);
+        }
+      })
+      .catch(() => undefined);
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const createContactFromTranscript = useCallback(async (transcript: string) => {
     const extracted = await extractContactFromTranscript(transcript, userContext);

@@ -32,6 +32,14 @@ export function isSupabaseConfigured(): boolean {
   return getClient() !== null;
 }
 
+async function getAuthenticatedUserId(sb: SupabaseClient): Promise<string | null> {
+  const { data, error } = await sb.auth.getUser();
+  if (error || !data.user?.id) {
+    return null;
+  }
+  return data.user.id;
+}
+
 // ---------------------------------------------------------------------------
 // In-memory fallback for demo mode
 // ---------------------------------------------------------------------------
@@ -51,8 +59,16 @@ export async function saveContact(contact: Contact): Promise<Contact> {
     return contact;
   }
 
+  const userId = await getAuthenticatedUserId(sb);
+  if (!userId) {
+    console.warn('[supabase] No authenticated user; saving contact locally.');
+    localContacts.set(contact.id, contact);
+    return contact;
+  }
+
   const { error } = await sb.from('contacts').upsert({
     id: contact.id,
+    user_id: userId,
     name: contact.name,
     company: contact.company,
     role: contact.role,
@@ -85,9 +101,15 @@ export async function listContacts(): Promise<Contact[]> {
     return Array.from(localContacts.values());
   }
 
+  const userId = await getAuthenticatedUserId(sb);
+  if (!userId) {
+    return Array.from(localContacts.values());
+  }
+
   const { data, error } = await sb
     .from('contacts')
     .select('*')
+    .eq('user_id', userId)
     .order('created_at', { ascending: false });
 
   if (error || !data) {
@@ -108,7 +130,14 @@ export async function markContactFollowedUp(contactId: string): Promise<void> {
     return;
   }
 
-  await sb.from('contacts').update({ followed_up_at: now }).eq('id', contactId);
+  const userId = await getAuthenticatedUserId(sb);
+  if (!userId) {
+    const local = localContacts.get(contactId);
+    if (local) localContacts.set(contactId, { ...local, followedUpAt: now });
+    return;
+  }
+
+  await sb.from('contacts').update({ followed_up_at: now }).eq('id', contactId).eq('user_id', userId);
 }
 
 // ---------------------------------------------------------------------------
@@ -125,8 +154,12 @@ export async function saveEvent(event: {
   const sb = getClient();
   if (!sb) return;
 
+  const userId = await getAuthenticatedUserId(sb);
+  if (!userId) return;
+
   await sb.from('events').upsert({
     id: event.id,
+    user_id: userId,
     name: event.name,
     date: event.date,
     location: event.location,
@@ -144,6 +177,18 @@ export async function saveDrafts(
 ): Promise<void> {
   const sb = getClient();
   if (!sb) return;
+
+  const userId = await getAuthenticatedUserId(sb);
+  if (!userId) return;
+
+  const { data: contact } = await sb
+    .from('contacts')
+    .select('id')
+    .eq('id', contactId)
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  if (!contact) return;
 
   const rows = [
     { contact_id: contactId, type: 'linkedin', content: drafts.linkedin },

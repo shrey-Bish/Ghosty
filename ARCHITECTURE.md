@@ -35,7 +35,12 @@ The app is a single Expo React Native entry point with local tab state. This kee
 - Estimated career value from salary-band data
 
 ## Data
-`src/services/supabase.ts` persists contacts, events, and follow-up drafts to Supabase Postgres when `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` are set. Row-level security ensures users own their data. Without Supabase config, an in-memory Map provides the same interface for zero-setup demos.
+`src/services/supabase.ts` persists contacts, events, and follow-up drafts to Supabase Postgres when `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, and an authenticated user session are present. Row-level security ensures users own their data. Without Supabase config or without a session, an in-memory Map provides the same interface for zero-setup demos.
+
+## Current Boundaries
+- The app has the Supabase data adapter and RLS schema, but does not yet include auth screens.
+- Google Calendar integration is represented by a reminder adapter and env placeholders; OAuth is still pending.
+- Mobile recording uses `expo-av`; web remains a reliable demo path with a simulated URI.
 
 ## Edge Function
 `supabase/functions/process-voice-memo/index.ts` implements the full server-side pipeline: fetch audio → Whisper transcription → Claude extraction → return structured result.

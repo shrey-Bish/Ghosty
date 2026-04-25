@@ -101,7 +101,7 @@ export function useVoiceRecorder() {
     setStatus('recording');
   }, [isNative]);
 
-  const stopRecording = useCallback(async () => {
+  const stopRecording = useCallback(async (): Promise<string | null> => {
     setStatus('processing');
 
     const recording = recordingRef.current;
@@ -115,12 +115,15 @@ export function useVoiceRecorder() {
         if (isNative) {
           await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
         }
+        return uri;
       } catch (err) {
         console.warn('[recorder] Error stopping recording:', err);
         setAudioUri(null);
+        return null;
       }
     }
     // If no native recording was active, audioUri stays null → demo path
+    return null;
   }, [isNative]);
 
   const cancelRecording = useCallback(async () => {

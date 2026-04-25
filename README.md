@@ -9,7 +9,7 @@ Ghosty is a mobile-first conference companion that turns voice notes into struct
 - Real OpenAI Whisper transcription when `EXPO_PUBLIC_OPENAI_API_KEY` is set.
 - Real Claude extraction and draft generation when `EXPO_PUBLIC_ANTHROPIC_API_KEY` is set, following `.kiro/steering/extraction-prompt.md`.
 - Deterministic Whisper/Claude fallback so the demo runs without API keys.
-- Supabase persistence for contacts, events, and follow-up drafts when configured.
+- Supabase adapter for contacts, events, and follow-up drafts. It persists when Supabase is configured and an authenticated user session exists.
 - In-memory fallback when Supabase is not configured.
 - Transparent scoring breakdown with salary-band estimate.
 - Follow-up priority queue with editable LinkedIn, email, and cover letter drafts.
@@ -42,9 +42,15 @@ EXPO_PUBLIC_ANTHROPIC_API_KEY=sk-ant-... # Claude extraction & drafting
 # Supabase persistence (optional)
 EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+
+# Calendar integration (placeholder for the next pass)
+EXPO_PUBLIC_GOOGLE_CALENDAR_CLIENT_ID=...
+EXPO_PUBLIC_GOOGLE_CALENDAR_API_KEY=...
 ```
 
 When keys are missing, each service falls back to deterministic demo data.
+
+Supabase RLS requires a signed-in user. Until auth UI is added, the app keeps using local demo storage when no session is present, even if Supabase URL/key are configured.
 
 ## Project Structure
 
@@ -66,3 +72,8 @@ supabase/              Schema migration and voice-processing edge function
 
 ## Privacy Posture
 Ghosty is explicit tap-to-record only. A red pulsing indicator is always visible while recording. The prototype uses local demo data by default; the Supabase schema enforces row-level security so users own their contacts and voice memo metadata.
+
+## Remaining Work
+- Add sign-in/sign-up so Supabase RLS persistence can be exercised end to end.
+- Replace the calendar placeholder with a real Google Calendar OAuth flow.
+- Add device/simulator QA screenshots for the final submission package.
