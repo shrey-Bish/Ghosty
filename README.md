@@ -44,7 +44,7 @@ When keys are missing, each service falls back to deterministic demo data.
 .kiro/                 Specs, hooks, and steering docs
 src/components/        Voice, contact card, follow-up, dashboard UI
 src/hooks/             Recorder (expo-av), queue, alert state
-src/screens/           SignIn, Profile, Events, FollowUp, Wand, QR, Home, Dashboard, Contact Detail
+src/screens/           SignIn, Profile, Events, FollowUp, Wand, QR, ContactDetail
 src/services/          Whisper, Claude, scoring, calendar stub, Supabase stub, Ghosty AI
 src/data/              Sample contacts (real mentors), events, profile
 supabase/              Schema migration and voice-processing edge function (ready for production)
