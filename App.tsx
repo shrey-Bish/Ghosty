@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Home, MessageCircle, QrCode, Sparkles, WandSparkles } from 'lucide-react-native';
+import { CalendarDays, MessageCircle, QrCode, User, WandSparkles } from 'lucide-react-native';
 
 import { sampleMeetingLogs } from './src/data/sampleData';
 import { useContactQueue } from './src/hooks/useContactQueue';
-import { useFollowUpAlerts } from './src/hooks/useFollowUpAlerts';
 import { ContactDetailScreen } from './src/screens/ContactDetailScreen';
-import { DashboardScreen } from './src/screens/DashboardScreen';
+import { EventsScreen } from './src/screens/EventsScreen';
 import { FollowUpScreen } from './src/screens/FollowUpScreen';
-import { HomeScreen } from './src/screens/HomeScreen';
-import { PrepScreen } from './src/screens/PrepScreen';
+import { ProfileScreen } from './src/screens/ProfileScreen';
 import { QRScreen } from './src/screens/QRScreen';
+import { SignInScreen } from './src/screens/SignInScreen';
 import { WandScreen } from './src/screens/WandScreen';
 import { colors } from './src/theme/colors';
-import { AppTab, Contact, MeetingLog } from './src/types';
+import { AppTab, Contact, MeetingLog, MockUserRole } from './src/types';
 
-const tabs: Array<{ value: AppTab; label: string; icon: typeof Home }> = [
-  { value: 'prep', label: 'Prep', icon: Sparkles },
-  { value: 'home', label: 'Capture', icon: Home },
+const tabs: Array<{ value: AppTab; label: string; icon: typeof User }> = [
+  { value: 'profile', label: 'Profile', icon: User },
+  { value: 'events', label: 'Events', icon: CalendarDays },
   { value: 'followup', label: 'Follow Up', icon: MessageCircle },
   { value: 'wand', label: 'Wand', icon: WandSparkles },
   { value: 'qr', label: 'QR', icon: QrCode }
@@ -28,16 +27,28 @@ export default function App() {
   const {
     contacts,
     rankedContacts,
-    currentEvent,
-    createContactFromTranscript,
-    confirmContact,
     markFollowedUp
   } = useContactQueue();
-  const atRiskContacts = useFollowUpAlerts(contacts);
-  const [activeTab, setActiveTab] = useState<AppTab>('home');
+  const [signedIn, setSignedIn] = useState(false);
+  const [role, setRole] = useState<MockUserRole>('student');
+  const [activeTab, setActiveTab] = useState<AppTab>('profile');
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [draftContact, setDraftContact] = useState<Contact | null>(null);
   const [meetingLogs, setMeetingLogs] = useState<MeetingLog[]>(sampleMeetingLogs);
+
+  if (!signedIn) {
+    return (
+      <>
+        <StatusBar style="light" />
+        <SignInScreen
+          onContinue={(nextRole) => {
+            setRole(nextRole);
+            setSignedIn(true);
+          }}
+        />
+      </>
+    );
+  }
 
   const openTab = (tab: AppTab) => {
     setSelectedContact(null);
@@ -57,19 +68,12 @@ export default function App() {
       onBack={() => setSelectedContact(null)}
       onDraft={openDraft}
     />
-  ) : activeTab === 'prep' ? (
-    <PrepScreen
+  ) : activeTab === 'profile' ? (
+    <ProfileScreen role={role} />
+  ) : activeTab === 'events' ? (
+    <EventsScreen
       contacts={contacts}
       onLogCreated={(log) => setMeetingLogs((existing) => [log, ...existing])}
-    />
-  ) : activeTab === 'home' ? (
-    <HomeScreen
-      contacts={contacts}
-      currentEvent={currentEvent}
-      createContactFromTranscript={createContactFromTranscript}
-      onContactConfirmed={confirmContact}
-      onOpenContact={setSelectedContact}
-      onNavigate={openTab}
     />
   ) : activeTab === 'followup' ? (
     <FollowUpScreen
@@ -78,8 +82,6 @@ export default function App() {
       initialContact={draftContact}
       onSent={markFollowedUp}
     />
-  ) : activeTab === 'dashboard' ? (
-    <DashboardScreen contacts={contacts} atRiskContacts={atRiskContacts} onNavigate={openTab} />
   ) : activeTab === 'wand' ? (
     <WandScreen contacts={contacts} meetingLogs={meetingLogs} onOpenContact={setSelectedContact} />
   ) : (
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 }
   },
   navItem: {
-    minWidth: 58,
+    minWidth: 56,
     minHeight: 58,
     alignItems: 'center',
     justifyContent: 'center',

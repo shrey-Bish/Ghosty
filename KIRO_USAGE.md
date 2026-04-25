@@ -9,7 +9,7 @@ The `.kiro/specs/` folder defines the product requirements before implementation
 - `follow-up-pipeline.spec.md` — AI-drafted LinkedIn, email, and cover letter messages
 - `qr-quick-add.spec.md` — QR code identity exchange screen
 - `dashboard.spec.md` — social capital timeline, at-risk contacts, Event Wrapped
-- `ghosty-prep.spec.md` — resume/skills setup, event URL battle plan, meeting log assignment, and Magic Wand network search
+- `ghosty-prep.spec.md` — mock sign-in, profile tabs, event detail, booth recording, meeting log assignment, and Magic Wand network search
 
 Each spec maps directly to implemented files in `src/`.
 
@@ -41,7 +41,9 @@ All services follow a dual-path pattern: real API when env vars are present, det
 | Ghosty agents | none yet | planned edge functions | deterministic event/log/search intelligence |
 
 ## Implementation Highlights
-- `src/screens/PrepScreen.tsx` implements resume/skills prep, event URL battle planning, and transcript-to-contact assignment.
+- `src/screens/SignInScreen.tsx` implements mock Student/Recruiter entry into the demo app.
+- `src/screens/ProfileScreen.tsx` implements editable profile, QR, bio, resume, URLs, and skills.
+- `src/screens/EventsScreen.tsx` implements event generation, attending companies, booth expansion, and conversation logging.
 - `src/screens/WandScreen.tsx` implements Magic Wand relationship search over contacts and meeting logs.
 - `src/services/ghosty.ts` contains the current deterministic event intelligence, transcript analysis, and network search logic.
 - `src/hooks/useVoiceRecorder.ts` uses `expo-av` `Audio.Recording` with proper permission requests and auto-stop at 60 seconds.

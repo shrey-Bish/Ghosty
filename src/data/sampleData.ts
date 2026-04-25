@@ -1,4 +1,4 @@
-import { Contact, EventCompany, EventInfo, MeetingLog, UserProfile } from '../types';
+import { Contact, EventCompany, EventInfo, EventItem, MeetingLog, UserProfile } from '../types';
 
 export const currentEvent: EventInfo = {
   id: 'event-asu-kiro',
@@ -13,13 +13,27 @@ export const userContext = {
 };
 
 export const ghostyProfile: UserProfile = {
-  name: 'Alex Rivera',
+  name: 'Bhavna Karuparthi',
   headline: 'Product-minded builder focused on growth systems',
+  title: 'Product Manager',
+  school: 'Duke University',
+  linkedin: 'linkedin.com/in/bhavna-karuparthi',
+  bio:
+    'Product manager and AI builder focused on growth, analytics, and tools that help people find opportunity faster.',
   careerGoal: 'Land a product or growth role',
+  currentFocus: 'Product Manager',
+  graduation: 'Not specified',
   resumeName: 'Alex_Rivera_Resume.pdf',
   resumeSummary:
     'Built analytics dashboards, shipped AI workflow prototypes, and led growth experiments for student-founder tools.',
+  resumes: ['Product_Management_Resume.pdf', 'Consulting_Resume.pdf'],
+  urls: [
+    { label: 'LinkedIn', value: 'linkedin.com/in/bhavna-karuparthi' },
+    { label: 'Portfolio', value: 'bhavna.design' },
+    { label: 'GitHub', value: 'github.com/bhavna-builds' }
+  ],
   topSkills: ['Product strategy', 'Growth analytics', 'AI prototyping', 'React Native', 'SQL'],
+  skills: ['Product Management', 'SQL'],
   targetRoles: ['Product Manager', 'Growth PM', 'AI Product Builder']
 };
 
@@ -30,6 +44,11 @@ export const eventBattlePlan: EventCompany[] = [
     booth: 'B12',
     hiringSignal: 'Consumer growth PM roles open',
     priority: 'High',
+    attendingCount: 39,
+    about: 'Payments infrastructure company building tools for internet businesses.',
+    pitchHint: 'Ask how consumer growth teams balance experimentation speed with financial trust.',
+    recruiters: ['Priya Kumar', 'Nolan Brooks'],
+    logoText: 'S',
     whyTarget: 'Matches product strategy, growth analytics, and fintech curiosity.',
     talkingPoints: ['Ask about consumer growth loops', 'Mention dashboard experiments', 'Ask who owns data team hiring']
   },
@@ -39,6 +58,11 @@ export const eventBattlePlan: EventCompany[] = [
     booth: 'A04',
     hiringSignal: 'Infra and AI platform teams recruiting',
     priority: 'High',
+    attendingCount: 53,
+    about: 'Leading innovation in AI, search, cloud infrastructure, and engineering at scale.',
+    pitchHint: 'Ask about their latest work and opportunities in AI research.',
+    recruiters: ['John Patel', 'Maya Singh'],
+    logoText: 'G',
     whyTarget: 'Strong fit for AI prototyping and systems-facing product work.',
     talkingPoints: ['Ask about AI workflow tooling', 'Reference React Native prototype work', 'Ask about early career PM paths']
   },
@@ -48,10 +72,62 @@ export const eventBattlePlan: EventCompany[] = [
     booth: 'C08',
     hiringSignal: 'Climate data partnership conversations',
     priority: 'Medium',
+    attendingCount: 21,
+    about: 'Builds open-source tools that make climate and geospatial data easier to use.',
+    pitchHint: 'Ask where product analytics can improve climate data workflows.',
+    recruiters: ['Marcus Reed'],
+    logoText: 'D',
     whyTarget: 'Good collaboration target for analytics, maps, and open-source tooling.',
     talkingPoints: ['Ask about climate data workflows', 'Mention SQL/dashboard skills', 'Explore open-source contribution']
   }
 ];
+
+const googleExpoCompany: EventCompany = {
+  ...eventBattlePlan[1]!,
+  booth: '#101'
+};
+
+export const sampleEvent: EventItem = {
+  id: 'neurips-2025-ai-expo',
+  title: 'NeurIPS 2025 AI Expo',
+  location: 'Vancouver Convention Centre',
+  date: '12/08/2025',
+  time: '9:00 AM - 6:00 PM',
+  status: 'Live',
+  homepageUrl: 'https://neurips.cc/Conferences/2025/',
+  sponsorUrl: 'https://neurips.cc/Conferences/2025/sponsors',
+  companies: [
+    googleExpoCompany,
+    {
+      id: 'tesla',
+      name: 'Tesla',
+      booth: '#102',
+      hiringSignal: 'AI product and autonomy teams recruiting',
+      priority: 'High',
+      attendingCount: 46,
+      about: 'Building electric vehicles, energy products, robotics, and autonomy systems.',
+      pitchHint: 'Ask how product teams translate autonomy research into user-facing experiences.',
+      recruiters: ['Elena Morris', 'Ravi Shah'],
+      logoText: 'T',
+      whyTarget: 'Strong match for AI prototyping, product systems, and analytics storytelling.',
+      talkingPoints: ['Ask about autonomy product metrics', 'Mention AI workflow prototypes', 'Ask about PM internships']
+    },
+    {
+      id: 'openai',
+      name: 'OpenAI',
+      booth: '#103',
+      hiringSignal: 'Product and applied AI roles open',
+      priority: 'High',
+      attendingCount: 61,
+      about: 'AI research and deployment company building useful, safe AI systems.',
+      pitchHint: 'Ask how product teams evaluate usefulness in early AI workflows.',
+      recruiters: ['Sam Rivera', 'Talia Chen'],
+      logoText: 'O',
+      whyTarget: 'Direct fit for AI product building, prototyping, and user-centered workflow design.',
+      talkingPoints: ['Ask about applied AI product loops', 'Reference Ghosty prototype', 'Ask about evaluation culture']
+    }
+  ]
+};
 
 export const sampleMeetingLogs: MeetingLog[] = [
   {

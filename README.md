@@ -4,10 +4,12 @@ Ghosty is an AI career companion for conference networking. It helps you prepare
 
 ## What Works Now
 - Expo React Native prototype with dark mobile UI.
-- Ghosty Prep screen for resume summary, top skills, target roles, and event URL battle planning.
+- Mock Student/Recruiter sign-in gate shown before the app.
+- Profile tab with editable profile, QR modal, bio, resume, URLs, and skills.
+- Events tab with add-event modal, NeurIPS event detail, attending companies, booth expansion, and booth-specific conversation logging.
 - Event intelligence demo agents that rank companies, booths, hiring signals, and talking points.
 - Real microphone recording via `expo-av` on iOS/Android with permission handling.
-- Voice capture demo flow with recording, waveform, processing, and contact confirmation.
+- Voice capture inside booth logging with recording, waveform, processing, and deterministic fallback.
 - Real OpenAI Whisper transcription when `EXPO_PUBLIC_OPENAI_API_KEY` is set.
 - Real Claude extraction and draft generation when `EXPO_PUBLIC_ANTHROPIC_API_KEY` is set, following `.kiro/steering/extraction-prompt.md`.
 - Deterministic Whisper/Claude fallback so the demo runs without API keys.
@@ -17,7 +19,7 @@ Ghosty is an AI career companion for conference networking. It helps you prepare
 - Meeting transcript assignment flow for Zoom transcripts or booth notes.
 - Magic Wand network search that finds who in your history can help with a specific ask.
 - Follow-up priority queue with editable LinkedIn, email, and cover letter drafts.
-- Social capital dashboard, at-risk contacts, Event Wrapped summary, and QR Quick Add.
+- QR Quick Add, follow-up queue, and Magic Wand relationship search.
 - Kiro-compatible specs, hooks, and steering docs in `.kiro/`.
 
 ## Run Locally
@@ -62,24 +64,24 @@ Supabase RLS requires a signed-in user. Until auth UI is added, the app keeps us
 .kiro/                 Specs, hooks, and steering docs
 src/components/        Voice, contact card, follow-up, dashboard UI
 src/hooks/             Recorder (expo-av), queue, alert state
-src/screens/           Prep, capture, detail, follow-up, dashboard, wand, QR
+src/screens/           Sign-in, profile, events, follow-up, wand, QR
 src/services/          Ghosty agents, Whisper, Claude, scoring, calendar, Supabase
 supabase/              Schema migration and voice-processing edge function
 ```
 
 ## Demo Flow
-1. Open Ghosty on the Prep tab.
-2. Review the resume/skills profile and paste an event URL to generate a battle plan.
-3. Move to Capture, tap the microphone, and stop recording to generate a contact card.
-4. Confirm the card, review the score breakdown, and draft a follow-up.
-5. Paste a Zoom transcript in Prep and assign the meeting log to a person.
+1. Open Ghosty and choose Student or Recruiter on the mock sign-in screen.
+2. Use Profile to edit bio details, add resumes/URLs/skills, and show the QR modal.
+3. Open Events, add/generate event data, and view the NeurIPS 2025 AI Expo.
+4. Expand a company with Attend Booth to see recruiters, company context, and a pitch hint.
+5. Tap Record to open the conversation modal, capture a text note, voice note, or mock upload, then review and save.
 6. Ask Magic Wand who can help with a goal and open the recommended contact.
 
 ## Privacy Posture
 Ghosty is explicit tap-to-record only. A red pulsing indicator is always visible while recording. The prototype uses local demo data by default; the Supabase schema enforces row-level security so users own their contacts and voice memo metadata.
 
 ## Remaining Work
-- Add sign-in/sign-up so Supabase RLS persistence can be exercised end to end.
+- Add real sign-in/sign-up so Supabase RLS persistence can be exercised end to end.
 - Add real resume upload/parsing and event URL scraping edge functions.
 - Store meeting logs in Supabase and attach multiple logs per contact.
 - Replace the calendar placeholder with a real Google Calendar OAuth flow.

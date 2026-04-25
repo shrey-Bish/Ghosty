@@ -2,13 +2,17 @@
 
 ```mermaid
 flowchart TD
-  P[Prep Screen: Resume Skills Event URL] --> Q[Ghosty Agent Service]
+  S[Mock Sign-In] --> P[Profile Screen]
+  S --> EV[Events Screen]
+  P --> QR[Profile QR Modal]
+  EV --> Q[Add Event AI Modal]
   Q --> R[Battle Plan Companies Booths Talking Points]
-  A[Capture Screen] --> B[useVoiceRecorder - expo-av]
+  EV --> LCM[Log Conversation Modal]
+  LCM --> B[useVoiceRecorder - expo-av]
   B --> C[Whisper Service]
   C --> D[Claude Extraction Service]
-  D --> E[Scoring Service]
-  E --> F[Swipe Contact Card]
+  D --> SC[Scoring Service]
+  SC --> F[Swipe Contact Card]
   F --> G[Contact Queue Hook]
   G --> H[Supabase Adapter]
   G --> I[Calendar Reminder Adapter]
@@ -16,7 +20,7 @@ flowchart TD
   G --> K[Dashboard]
   J --> L[Draft Message Editor]
   K --> M[Event Wrapped]
-  N[Transcript Assignment] --> O[Meeting Logs]
+  LCM --> O[Meeting Logs]
   O --> W[Magic Wand Network Search]
   G --> W
 ```
@@ -24,11 +28,11 @@ flowchart TD
 ## Frontend
 The app is a single Expo React Native entry point with local tab state. This keeps the hackathon demo reliable while preserving a structure that can move to Expo Router later.
 
-## Ghosty Prep
-`src/screens/PrepScreen.tsx` lets the user teach Ghosty about their resume, skills, and target roles. It also runs a deterministic event URL analysis through `src/services/ghosty.ts`, producing a ranked battle plan of companies, booths, hiring signals, and talking points.
+## Mock Auth and Profile
+`src/screens/SignInScreen.tsx` gates the demo with a local Student/Recruiter role. `src/screens/ProfileScreen.tsx` lets the user edit mock profile fields, manage resume/URL/skill state, and open an in-screen QR modal.
 
-## Meeting Memory
-Ghosty accepts live voice memos through the capture screen and pasted Zoom/booth transcripts through the Prep screen. `analyzeMeetingTranscript` extracts summaries, key points, and action items, then assigns the log to an existing contact in memory.
+## Events and Meeting Memory
+`src/screens/EventsScreen.tsx` owns the event list, add-event modal, event detail, company booth expansion, and conversation logging. Ghosty accepts text notes, voice notes, and mock uploads through the booth record modal. `analyzeMeetingTranscript` extracts summaries, key points, and action items, then saves a local meeting log.
 
 ## Magic Wand Search
 `src/screens/WandScreen.tsx` lets users ask who in their network can help. `searchNetwork` ranks contacts using names, companies, roles, snippets, key details, and assigned meeting logs.
@@ -52,7 +56,7 @@ Ghosty accepts live voice memos through the capture screen and pasted Zoom/booth
 `src/services/supabase.ts` persists contacts, events, and follow-up drafts to Supabase Postgres when `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, and an authenticated user session are present. Row-level security ensures users own their data. Without Supabase config or without a session, an in-memory Map provides the same interface for zero-setup demos.
 
 ## Current Boundaries
-- The app has the Supabase data adapter and RLS schema, but does not yet include auth screens.
+- The app has a mock sign-in gate, Supabase data adapter, and RLS schema, but does not yet include real Supabase auth screens.
 - Ghosty event intelligence, resume parsing, and network search are deterministic local agent simulations; production versions should move to edge functions and embeddings.
 - Google Calendar integration is represented by a reminder adapter and env placeholders; OAuth is still pending.
 - Mobile recording uses `expo-av`; web remains a reliable demo path with a simulated URI.

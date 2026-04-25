@@ -2,6 +2,12 @@ export type IntentTag = 'recruiting' | 'mentor' | 'collaborator' | 'amplifier' |
 
 export type DraftType = 'linkedin' | 'email' | 'coverLetter';
 
+export type MockUserRole = 'student' | 'recruiter';
+
+export type ProfileTab = 'bio' | 'resume' | 'urls' | 'skills';
+
+export type ConversationCaptureMode = 'text' | 'voice' | 'upload' | 'review';
+
 export interface ScoreFactor {
   label: string;
   detail: string;
@@ -52,10 +58,19 @@ export interface EventInfo {
 export interface UserProfile {
   name: string;
   headline: string;
+  title: string;
+  school: string;
+  linkedin: string;
+  bio: string;
   careerGoal: string;
+  currentFocus: string;
+  graduation: string;
   resumeName: string;
   resumeSummary: string;
+  resumes: string[];
+  urls: Array<{ label: string; value: string }>;
   topSkills: string[];
+  skills: string[];
   targetRoles: string[];
 }
 
@@ -65,8 +80,36 @@ export interface EventCompany {
   booth: string;
   hiringSignal: string;
   priority: 'High' | 'Medium' | 'Low';
+  attendingCount: number;
+  about: string;
+  pitchHint: string;
+  recruiters: string[];
+  logoText: string;
   whyTarget: string;
   talkingPoints: string[];
+}
+
+export interface EventItem {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  status: 'Live' | 'Upcoming' | 'Past';
+  homepageUrl: string;
+  sponsorUrl: string;
+  companies: EventCompany[];
+}
+
+export interface ConversationDraftLog {
+  companyId: string;
+  mode: ConversationCaptureMode;
+  note: string;
+  uploadedFileName?: string;
+  summary: string;
+  keyPoints: string[];
+  actionItems: string[];
+  assignedContactId?: string;
 }
 
 export interface MeetingLog {
@@ -97,4 +140,4 @@ export interface ExtractedContactCard {
   estimatedSeniority: 'junior' | 'mid' | 'senior' | 'director' | 'vp' | 'c-suite' | 'unknown';
 }
 
-export type AppTab = 'home' | 'prep' | 'followup' | 'dashboard' | 'wand' | 'qr';
+export type AppTab = 'profile' | 'events' | 'followup' | 'wand' | 'qr' | 'home' | 'dashboard';
