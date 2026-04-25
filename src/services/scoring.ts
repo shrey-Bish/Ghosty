@@ -19,14 +19,16 @@ const seniorityWeights: Record<ExtractedContactCard['estimatedSeniority'], numbe
 };
 
 const companyTiers: Record<string, number> = {
-  stripe: 2,
+  aws: 2,
+  amazon: 2,
   google: 2,
+  toptal: 1.6,
+  'ai cloud innovation center': 1.4,
+  stripe: 2,
   openai: 2,
   anthropic: 2,
   microsoft: 1.9,
-  meta: 1.9,
-  devseed: 1.45,
-  asu: 1.1
+  meta: 1.9
 };
 
 export function getSalaryBand(role: string, company: string) {

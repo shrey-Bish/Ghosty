@@ -1,3 +1,11 @@
+/**
+ * Calendar reminder adapter.
+ *
+ * For the demo, this returns a mock calendar event payload.
+ * In production, this would integrate with Google Calendar MCP
+ * to create real follow-up reminders.
+ */
+
 import { Contact } from '../types';
 
 export async function createFollowUpReminder(contact: Contact) {

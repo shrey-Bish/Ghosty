@@ -46,9 +46,9 @@ export function HomeScreen({
     }
 
     if (recorder.status === 'recording') {
-      const stoppedAudioUri = await recorder.stopRecording();
+      const stoppedUri = await recorder.stopRecording();
       try {
-        const uri = resolveAudioUri(stoppedAudioUri ?? recorder.audioUri);
+        const uri = resolveAudioUri(stoppedUri);
         const transcript = await transcribeAudio(uri);
         const contact = await createContactFromTranscript(transcript);
         setPendingContact(contact);
@@ -75,7 +75,7 @@ export function HomeScreen({
           <Text style={styles.eventDate}>{currentEvent.dateLabel}</Text>
         </View>
         <Pressable style={styles.avatar} onPress={() => onNavigate('dashboard')}>
-          <Text style={styles.avatarText}>AR</Text>
+          <Text style={styles.avatarText}>SB</Text>
         </Pressable>
       </View>
 

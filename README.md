@@ -1,62 +1,42 @@
 # Ghosty
 
-Ghosty is an AI career companion for conference networking. It helps you prepare before an event, exchange verified contact info, capture voice notes or transcripts, search your relationship history, and send context-aware follow-ups before the moment goes cold.
+Ghosty is a mobile-first conference companion that turns voice notes into structured relationship follow-up. Tap the mic after a conversation, get a contact card, see a transparent Connection Value Score, and draft a specific follow-up before the context fades.
 
 ## What Works Now
-- Expo React Native prototype with dark mobile UI.
-- Mock Student/Recruiter sign-in gate shown before the app.
-- Profile tab with editable profile, QR modal, bio, resume, URLs, and skills.
-- Events tab with add-event modal, NeurIPS event detail, attending companies, booth expansion, and booth-specific conversation logging.
-- Event intelligence demo agents that rank companies, booths, hiring signals, and talking points.
+- Expo React Native prototype with dark premium mobile UI.
+- Sign-in screen with student/recruiter role selection.
+- Editable profile with bio, resumes, URLs, skills, and QR code.
+- Events screen with attending companies, booth summaries, recruiter lists, and pitch hints.
+- Conversation logging via text, voice, or upload with AI-powered review.
 - Real microphone recording via `expo-av` on iOS/Android with permission handling.
-- Voice capture inside booth logging with recording, waveform, processing, and deterministic fallback.
 - Real OpenAI Whisper transcription when `EXPO_PUBLIC_OPENAI_API_KEY` is set.
-- Real Claude extraction and draft generation when `EXPO_PUBLIC_ANTHROPIC_API_KEY` is set, following `.kiro/steering/extraction-prompt.md`.
-- Deterministic Whisper/Claude fallback so the demo runs without API keys.
-- Supabase adapter for contacts, events, and follow-up drafts. It persists when Supabase is configured and an authenticated user session exists.
-- In-memory fallback when Supabase is not configured.
+- Real Claude extraction and draft generation when `EXPO_PUBLIC_ANTHROPIC_API_KEY` is set.
+- Deterministic demo fallbacks so the app runs without any API keys.
 - Transparent scoring breakdown with salary-band estimate.
-- Meeting transcript assignment flow for Zoom transcripts or booth notes.
-- Magic Wand network search that finds who in your history can help with a specific ask.
-- Follow-up priority queue with editable LinkedIn, email, and cover letter drafts.
-- QR Quick Add, follow-up queue, and Magic Wand relationship search.
+- Follow-up priority queue with AI-powered "Make shorter", "More formal", and "Add skill highlight" quick actions.
+- Magic Wand with Job Search and Referral Assist tabs for network matching.
+- QR Quick Add screen for identity exchange.
 - Kiro-compatible specs, hooks, and steering docs in `.kiro/`.
 
 ## Run Locally
 
 ```bash
 npm install
-npm run web
+npx expo start --tunnel
 ```
 
-For a device build:
-
-```bash
-npm run ios
-npm run android
-```
+Scan the QR code with Expo Go on your phone.
 
 ## Environment Variables
 
-The app runs without any keys for judging. To enable real integrations, set:
+The app runs without any keys for demo/judging. To enable real AI integrations:
 
 ```bash
-# AI services
 EXPO_PUBLIC_OPENAI_API_KEY=sk-...        # Whisper transcription
 EXPO_PUBLIC_ANTHROPIC_API_KEY=sk-ant-... # Claude extraction & drafting
-
-# Supabase persistence (optional)
-EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
-
-# Calendar integration (placeholder for the next pass)
-EXPO_PUBLIC_GOOGLE_CALENDAR_CLIENT_ID=...
-EXPO_PUBLIC_GOOGLE_CALENDAR_API_KEY=...
 ```
 
 When keys are missing, each service falls back to deterministic demo data.
-
-Supabase RLS requires a signed-in user. Until auth UI is added, the app keeps using local demo storage when no session is present, even if Supabase URL/key are configured.
 
 ## Project Structure
 
@@ -64,25 +44,20 @@ Supabase RLS requires a signed-in user. Until auth UI is added, the app keeps us
 .kiro/                 Specs, hooks, and steering docs
 src/components/        Voice, contact card, follow-up, dashboard UI
 src/hooks/             Recorder (expo-av), queue, alert state
-src/screens/           Sign-in, profile, events, follow-up, wand, QR
-src/services/          Ghosty agents, Whisper, Claude, scoring, calendar, Supabase
-supabase/              Schema migration and voice-processing edge function
+src/screens/           SignIn, Profile, Events, FollowUp, Wand, QR, Home, Dashboard, Contact Detail
+src/services/          Whisper, Claude, scoring, calendar stub, Supabase stub, Ghosty AI
+src/data/              Sample contacts (real mentors), events, profile
+supabase/              Schema migration and voice-processing edge function (ready for production)
 ```
 
 ## Demo Flow
-1. Open Ghosty and choose Student or Recruiter on the mock sign-in screen.
-2. Use Profile to edit bio details, add resumes/URLs/skills, and show the QR modal.
-3. Open Events, add/generate event data, and view the NeurIPS 2025 AI Expo.
-4. Expand a company with Attend Booth to see recruiters, company context, and a pitch hint.
-5. Tap Record to open the conversation modal, capture a text note, voice note, or mock upload, then review and save.
-6. Ask Magic Wand who can help with a goal and open the recommended contact.
+1. Sign in as a student with sbishno2@asu.edu.
+2. View your profile — Shrey Bishnoi, Software Engineer, ASU.
+3. Go to Events — see the Kiro Spark Challenge with AWS, Toptal, Amazon, AI Cloud Innovation Center.
+4. Tap a company → Summary shows recruiters, about, pitch hint. Attend Booth opens conversation logging.
+5. Go to Follow Up — see prioritized mentor contacts. Tap one, use AI quick actions to refine drafts.
+6. Go to Magic Wand — search by job title or use referral assist prompts to find best matches.
+7. Go to QR — share your Ghosty identity code.
 
 ## Privacy Posture
-Ghosty is explicit tap-to-record only. A red pulsing indicator is always visible while recording. The prototype uses local demo data by default; the Supabase schema enforces row-level security so users own their contacts and voice memo metadata.
-
-## Remaining Work
-- Add real sign-in/sign-up so Supabase RLS persistence can be exercised end to end.
-- Add real resume upload/parsing and event URL scraping edge functions.
-- Store meeting logs in Supabase and attach multiple logs per contact.
-- Replace the calendar placeholder with a real Google Calendar OAuth flow.
-- Add device/simulator QA screenshots for the final submission package.
+Ghosty is explicit tap-to-record only. A red pulsing indicator is always visible while recording. The Supabase schema enforces row-level security so users own their data. Voice memos are processed and not stored.

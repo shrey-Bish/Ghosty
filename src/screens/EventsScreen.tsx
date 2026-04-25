@@ -172,12 +172,11 @@ function EventDetail({
                   style={styles.attendButton}
                   onPress={() => setExpandedCompanyId(expanded ? null : company.id)}
                 >
-                  <Text style={styles.attendText}>Attend Booth</Text>
+                  <Text style={styles.attendText}>Summary</Text>
                   {expanded ? <ChevronUp size={18} color={colors.black} /> : <ChevronDown size={18} color={colors.black} />}
                 </Pressable>
                 <Pressable style={styles.recordButton} onPress={() => onRecord(company)}>
-                  <Mic size={18} color={colors.amber} />
-                  <Text style={styles.recordText}>Record</Text>
+                  <Text style={styles.recordButtonText}>Attend Booth</Text>
                 </Pressable>
               </View>
 
@@ -680,13 +679,11 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     borderColor: colors.borderStrong,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8
+    justifyContent: 'center'
   },
-  recordText: {
-    color: colors.text,
+  recordButtonText: {
+    color: colors.amber,
     fontWeight: '900'
   },
   expandedPanel: {

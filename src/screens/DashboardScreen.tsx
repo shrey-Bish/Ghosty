@@ -37,7 +37,7 @@ export function DashboardScreen({ contacts, atRiskContacts, onNavigate }: Dashbo
         <View style={styles.header}>
           <View>
             <Text style={styles.title}>Dashboard</Text>
-            <Text style={styles.subtitle}>April 2026</Text>
+            <Text style={styles.subtitle}>Kiro Spark Challenge</Text>
           </View>
           <Pressable style={styles.exportButton} onPress={() => setSummaryOpen(true)}>
             <Download size={16} color={colors.teal} />

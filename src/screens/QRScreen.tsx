@@ -28,11 +28,11 @@ export function QRScreen() {
             <View key={index} style={[styles.qrCell, active && styles.qrCellActive]} />
           ))}
           <View style={styles.qrLogo}>
-            <Text style={styles.qrLogoText}>G</Text>
+            <Text style={styles.qrLogoText}>S</Text>
           </View>
         </View>
-        <Text style={styles.profile}>Alex Rivera · Product Manager · ASU</Text>
-        <Text style={styles.handle}>@alexrivera</Text>
+        <Text style={styles.profile}>Shrey Bishnoi · Software Engineer · ASU</Text>
+        <Text style={styles.handle}>@shreybishnoi</Text>
         <Pressable style={styles.shareButton}>
           <Share2 size={16} color={colors.amber} />
           <Text style={styles.shareText}>Share</Text>

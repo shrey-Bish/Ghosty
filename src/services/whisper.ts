@@ -44,8 +44,11 @@ export async function transcribeAudio(audioUri: string): Promise<string> {
 }
 
 function getEnv(key: string) {
-  return (globalThis as unknown as { process?: { env?: Record<string, string | undefined> } })
-    .process?.env?.[key];
+  // Expo inlines EXPO_PUBLIC_* at build time via Metro bundler
+  const vars: Record<string, string | undefined> = {
+    EXPO_PUBLIC_OPENAI_API_KEY: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
+  };
+  return vars[key];
 }
 
 function wait(ms: number) {

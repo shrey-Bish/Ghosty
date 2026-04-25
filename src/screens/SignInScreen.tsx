@@ -11,7 +11,7 @@ interface SignInScreenProps {
 
 export function SignInScreen({ onContinue }: SignInScreenProps) {
   const [role, setRole] = useState<MockUserRole>('student');
-  const [email, setEmail] = useState('student@duke.edu');
+  const [email, setEmail] = useState('sbishno2@asu.edu');
 
   return (
     <View style={styles.screen}>

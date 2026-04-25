@@ -2,64 +2,52 @@
 
 ```mermaid
 flowchart TD
-  S[Mock Sign-In] --> P[Profile Screen]
-  S --> EV[Events Screen]
-  P --> QR[Profile QR Modal]
-  EV --> Q[Add Event AI Modal]
-  Q --> R[Battle Plan Companies Booths Talking Points]
-  EV --> LCM[Log Conversation Modal]
-  LCM --> B[useVoiceRecorder - expo-av]
-  B --> C[Whisper Service]
-  C --> D[Claude Extraction Service]
-  D --> SC[Scoring Service]
-  SC --> F[Swipe Contact Card]
-  F --> G[Contact Queue Hook]
-  G --> H[Supabase Adapter]
-  G --> I[Calendar Reminder Adapter]
-  G --> J[Follow-up Queue]
-  G --> K[Dashboard]
-  J --> L[Draft Message Editor]
-  K --> M[Event Wrapped]
-  LCM --> O[Meeting Logs]
-  O --> W[Magic Wand Network Search]
-  G --> W
+  A[Sign In] --> B[Profile Screen]
+  B --> C[Events Screen]
+  C --> D[Company Detail + Conversation Log]
+  D --> E[Whisper Transcription]
+  E --> F[Claude Extraction]
+  F --> G[Scoring Service]
+  G --> H[Contact Card]
+  H --> I[Follow-up Queue]
+  I --> J[AI Draft Editor + Quick Actions]
+  B --> K[Magic Wand - Network Search]
+  B --> L[QR Quick Add]
+  I --> M[Dashboard + Event Wrapped]
 ```
 
-## Frontend
-The app is a single Expo React Native entry point with local tab state. This keeps the hackathon demo reliable while preserving a structure that can move to Expo Router later.
-
-## Mock Auth and Profile
-`src/screens/SignInScreen.tsx` gates the demo with a local Student/Recruiter role. `src/screens/ProfileScreen.tsx` lets the user edit mock profile fields, manage resume/URL/skill state, and open an in-screen QR modal.
-
-## Events and Meeting Memory
-`src/screens/EventsScreen.tsx` owns the event list, add-event modal, event detail, company booth expansion, and conversation logging. Ghosty accepts text notes, voice notes, and mock uploads through the booth record modal. `analyzeMeetingTranscript` extracts summaries, key points, and action items, then saves a local meeting log.
-
-## Magic Wand Search
-`src/screens/WandScreen.tsx` lets users ask who in their network can help. `searchNetwork` ranks contacts using names, companies, roles, snippets, key details, and assigned meeting logs.
+## App Flow
+1. Sign in → Profile (editable bio, resumes, skills, QR)
+2. Events → View attending companies, booth summaries, recruiter lists, pitch hints
+3. Attend Booth → Log conversation via text, voice, or upload → AI review with key points and action items
+4. Follow Up → Prioritized queue → AI-drafted messages with "Make shorter", "More formal", "Add skill highlight"
+5. Magic Wand → Job Search by title/company or Referral Assist with example prompts
+6. QR → Share identity code for quick exchange
 
 ## Voice Capture
 `src/hooks/useVoiceRecorder.ts` uses `expo-av` `Audio.Recording` for real microphone capture on iOS/Android. It requests permissions, records to `.m4a`, and auto-stops at 60 seconds. On web or when permissions are denied, it falls back to a simulated waveform and demo URI.
 
 ## AI Layer
-`src/services/whisper.ts` sends real audio to the OpenAI Whisper API when `EXPO_PUBLIC_OPENAI_API_KEY` is set. `src/services/claude.ts` sends transcripts to Claude with the full extraction prompt from `.kiro/steering/extraction-prompt.md` when `EXPO_PUBLIC_ANTHROPIC_API_KEY` is set. Both services return deterministic demo data when keys are absent.
+- `src/services/whisper.ts` — OpenAI Whisper API when `EXPO_PUBLIC_OPENAI_API_KEY` is set
+- `src/services/claude.ts` — Claude extraction (following `.kiro/steering/extraction-prompt.md`) and draft generation when `EXPO_PUBLIC_ANTHROPIC_API_KEY` is set
+- `src/components/FollowUp/DraftMessage.tsx` — Claude-powered quick actions for draft refinement
+- `src/services/ghosty.ts` — Network search, event analysis, meeting transcript analysis
+
+All services return deterministic demo data when keys are absent.
 
 ## Scoring
-`src/services/scoring.ts` computes:
-- Role seniority (0–3 points)
-- Company tier (0–2 points)
+`src/services/scoring.ts` computes a transparent Connection Value Score (1-10):
+- Role seniority (0-3 points)
+- Company tier (0-2 points)
 - Intent weight (recruiting highest, peer lowest)
-- Career relevance (0–2 points)
+- Career relevance (0-2 points)
 - Recency bonus (decays 10% per week)
 - Estimated career value from salary-band data
 
 ## Data
-`src/services/supabase.ts` persists contacts, events, and follow-up drafts to Supabase Postgres when `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, and an authenticated user session are present. Row-level security ensures users own their data. Without Supabase config or without a session, an in-memory Map provides the same interface for zero-setup demos.
+Demo data in `src/data/sampleData.ts` uses real mentors from the Kiro Spark Challenge: Aditya Challa, Brian Eisenlauer, Harsh Tita, Aditya Vikram Parakala, Danny Kim, Jeffrey Mills, Arun Arunachalam, Evan Elezaj, and Madhu Nagaraj from AWS, Amazon, Toptal, and AI Cloud Innovation Center.
 
-## Current Boundaries
-- The app has a mock sign-in gate, Supabase data adapter, and RLS schema, but does not yet include real Supabase auth screens.
-- Ghosty event intelligence, resume parsing, and network search are deterministic local agent simulations; production versions should move to edge functions and embeddings.
-- Google Calendar integration is represented by a reminder adapter and env placeholders; OAuth is still pending.
-- Mobile recording uses `expo-av`; web remains a reliable demo path with a simulated URI.
-
-## Edge Function
-`supabase/functions/process-voice-memo/index.ts` implements the full server-side pipeline: fetch audio → Whisper transcription → Claude extraction → return structured result.
+## Production Path
+- `supabase/migrations/001_initial_schema.sql` — Postgres schema with RLS for contacts, events, follow_up_drafts
+- `supabase/functions/process-voice-memo/index.ts` — Server-side Whisper → Claude pipeline
+- `src/services/calendar.ts` — Google Calendar MCP integration stub

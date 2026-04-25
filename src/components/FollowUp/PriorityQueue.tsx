@@ -70,7 +70,6 @@ function QueueRow({ contact, onSelect }: { contact: Contact; onSelect: (contact:
           <Text style={[styles.dueText, { color: urgencyColor }]}>{contact.dueLabel}</Text>
         </View>
       </View>
-      <Text style={styles.score}>{contact.valueScore.toFixed(1)}</Text>
       <ChevronRight size={19} color={colors.textMuted} />
     </Pressable>
   );
@@ -177,8 +176,6 @@ const styles = StyleSheet.create({
     fontWeight: '900'
   },
   score: {
-    color: colors.amber,
-    fontSize: 20,
-    fontWeight: '900'
+    display: 'none'
   }
 });

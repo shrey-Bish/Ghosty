@@ -203,7 +203,7 @@ function buildDemoDrafts(
   const detail = keyDetails[1] ?? keyDetails[0] ?? 'the opportunity';
 
   return {
-    linkedin: `Hi ${firstName} - I loved your point about ${detail} at ${company}. The way you described ${contextSnippet.toLowerCase()} maps closely to the product and growth problems I want to work on. I would love to reconnect after the timing you mentioned and share a little more about my background.`,
+    linkedin: `Hi ${firstName} - I loved your point about ${detail} at ${company}. The way you described ${contextSnippet.toLowerCase()} maps closely to the product and growth problems I want to work on. I would love to reconnect after the timing you mentioned and share a little more about my background. Happy to send a concise profile or a few examples of relevant work if that would be helpful.`,
     email: `Hi ${firstName},\n\nThanks again for the conversation today. Your note about ${detail} at ${company} stuck with me, especially because it lines up with the kind of product work I am aiming for next.\n\nI would be grateful to stay in touch after the follow-up window you mentioned. I am happy to send a concise profile or a few examples of relevant work if helpful.\n\nBest,\nAlex`,
     coverLetter: `Dear ${company} team,\n\nI am excited about the opportunity we discussed because it sits directly at the intersection of product judgment, growth systems, and user empathy. In my conversation with ${contactName}, the detail that stood out was ${detail}, which is exactly the type of high-context problem I enjoy translating into product momentum.\n\nI would welcome the chance to contribute and continue the conversation.`
   };
@@ -236,8 +236,11 @@ function pickDemoExtraction(transcript: string): ExtractedContactCard {
 // ---------------------------------------------------------------------------
 
 function getEnv(key: string) {
-  return (globalThis as unknown as { process?: { env?: Record<string, string | undefined> } })
-    .process?.env?.[key];
+  // Expo inlines EXPO_PUBLIC_* at build time via Metro bundler
+  const vars: Record<string, string | undefined> = {
+    EXPO_PUBLIC_ANTHROPIC_API_KEY: process.env.EXPO_PUBLIC_ANTHROPIC_API_KEY,
+  };
+  return vars[key];
 }
 
 function wait(ms: number) {
