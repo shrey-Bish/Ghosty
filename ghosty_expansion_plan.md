@@ -1,11 +1,11 @@
-# Breadcrumb Implementation Plan
+# Ghosty Implementation Plan
 
-Breadcrumb expands Ghosty's voice-first networking flow into a full AI career companion. The product promise is: prepare before the event, capture every meeting, keep each relationship history organized, and send high-context follow-ups before the opportunity cools off.
+Ghosty expands Ghosty's voice-first networking flow into a full AI career companion. The product promise is: prepare before the event, capture every meeting, keep each relationship history organized, and send high-context follow-ups before the opportunity cools off.
 
 ## Product Pillars
 
-### 1. Teach Breadcrumb About You
-Users add a resume and tag their top skills before the event. Breadcrumb uses this profile to tailor follow-up emails toward the user's actual strengths.
+### 1. Teach Ghosty About You
+Users add a resume and tag their top skills before the event. Ghosty uses this profile to tailor follow-up emails toward the user's actual strengths.
 
 Implemented now:
 - Resume/profile preparation screen.
@@ -17,7 +17,7 @@ Next:
 - Persistent user profile table in Supabase.
 
 ### 2. Event URL Intelligence
-Instead of manual event planning, the user pastes an event URL. Breadcrumb's agent workflow extracts companies, booths, hiring signals, and recommended talking points.
+Instead of manual event planning, the user pastes an event URL. Ghosty's agent workflow extracts companies, booths, hiring signals, and recommended talking points.
 
 Implemented now:
 - Event URL input.
@@ -29,10 +29,10 @@ Next:
 - Real event URL parsing with fallback to user paste/manual import.
 
 ### 3. Verified Contact Exchange
-People can scan a Breadcrumb QR to exchange verified contact info and link to a profile.
+People can scan a Ghosty QR to exchange verified contact info and link to a profile.
 
 Implemented now:
-- QR exchange screen adapted to Breadcrumb identity.
+- QR exchange screen adapted to Ghosty identity.
 - Existing contact pipeline can attach context after exchange.
 
 Next:
@@ -40,7 +40,7 @@ Next:
 - Scan-to-create-contact flow.
 
 ### 4. Meeting Memory
-Breadcrumb accepts live voice memos or pasted Zoom transcripts. It extracts key points, action items, and relationship context, then assigns the log to a person.
+Ghosty accepts live voice memos or pasted Zoom transcripts. It extracts key points, action items, and relationship context, then assigns the log to a person.
 
 Implemented now:
 - Voice memo flow already generates structured contacts.
@@ -52,7 +52,7 @@ Next:
 - Attach multiple logs to one contact over time.
 
 ### 5. Magic Wand Network Search
-Users ask who in their network can help. Breadcrumb searches relationship history and returns the strongest contacts with reasons.
+Users ask who in their network can help. Ghosty searches relationship history and returns the strongest contacts with reasons.
 
 Implemented now:
 - Magic Wand screen.
@@ -64,7 +64,7 @@ Next:
 - Natural language answer synthesis over all logs.
 
 ### 6. Context-Aware Bulk Follow-up
-Breadcrumb drafts personalized, context-aware emails for everyone met today.
+Ghosty drafts personalized, context-aware emails for everyone met today.
 
 Implemented now:
 - Per-contact LinkedIn/email/cover-letter drafts.
@@ -77,7 +77,7 @@ Next:
 
 ## Build Priority
 1. Keep the existing voice capture and scoring flow stable.
-2. Add Breadcrumb prep and intelligence screens.
+2. Add Ghosty prep and intelligence screens.
 3. Add transcript assignment and Magic Wand search.
 4. Update docs and Kiro specs to describe the expanded product.
 5. Preserve demo fallbacks for hackathon reliability.

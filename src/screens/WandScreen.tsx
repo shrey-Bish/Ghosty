@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { WandSparkles } from 'lucide-react-native';
 
-import { searchNetwork } from '../services/breadcrumb';
+import { searchNetwork } from '../services/ghosty';
 import { colors } from '../theme/colors';
 import { Contact, MeetingLog, NetworkSearchResult } from '../types';
 
@@ -29,7 +29,7 @@ export function WandScreen({ contacts, meetingLogs, onOpenContact }: WandScreenP
         </View>
         <View style={styles.headerText}>
           <Text style={styles.title}>Magic Wand</Text>
-          <Text style={styles.subtitle}>Ask Breadcrumb who in your network can help.</Text>
+          <Text style={styles.subtitle}>Ask Ghosty who in your network can help.</Text>
         </View>
       </View>
 
@@ -45,7 +45,7 @@ export function WandScreen({ contacts, meetingLogs, onOpenContact }: WandScreenP
         />
         <Pressable style={styles.primaryButton} onPress={() => setSubmittedQuery(query)}>
           <WandSparkles size={17} color={colors.black} />
-          <Text style={styles.primaryText}>Find My Best Breadcrumbs</Text>
+          <Text style={styles.primaryText}>Find Best Matches</Text>
         </Pressable>
       </View>
 

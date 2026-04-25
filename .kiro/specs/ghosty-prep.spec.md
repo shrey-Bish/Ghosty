@@ -1,7 +1,7 @@
-# Breadcrumb Prep and Network Intelligence Spec
+# Ghosty Prep and Network Intelligence Spec
 
 ## User Story
-As a conference attendee, I want Breadcrumb to understand my background, plan which booths to visit, remember every meeting, and tell me who in my network can help so that networking turns into targeted opportunity.
+As a conference attendee, I want Ghosty to understand my background, plan which booths to visit, remember every meeting, and tell me who in my network can help so that networking turns into targeted opportunity.
 
 ## Requirements (EARS)
 - WHEN the user opens Prep, the app SHALL show resume identity, skill tags, career goal, and target roles.

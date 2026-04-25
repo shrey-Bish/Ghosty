@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Link, Sparkles, Upload } from 'lucide-react-native';
 
-import { breadcrumbProfile } from '../data/sampleData';
-import { analyzeEventUrl, analyzeMeetingTranscript } from '../services/breadcrumb';
+import { ghostyProfile } from '../data/sampleData';
+import { analyzeEventUrl, analyzeMeetingTranscript } from '../services/ghosty';
 import { colors } from '../theme/colors';
 import { Contact, EventCompany, MeetingLog, UserProfile } from '../types';
 
@@ -13,7 +13,7 @@ interface PrepScreenProps {
 }
 
 export function PrepScreen({ contacts, onLogCreated }: PrepScreenProps) {
-  const [profile] = useState<UserProfile>(breadcrumbProfile);
+  const [profile] = useState<UserProfile>(ghostyProfile);
   const [eventUrl, setEventUrl] = useState('https://asu.example/events/kiro-spark-challenge');
   const [companies, setCompanies] = useState<EventCompany[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -47,14 +47,14 @@ export function PrepScreen({ contacts, onLogCreated }: PrepScreenProps) {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <Text style={styles.wordmark}>Breadcrumb</Text>
+        <Text style={styles.wordmark}>Ghosty</Text>
         <Text style={styles.subtitle}>Prepare before the handshake. Remember after it.</Text>
       </View>
 
       <View style={styles.card}>
         <View style={styles.cardHeader}>
           <Upload size={18} color={colors.amber} />
-          <Text style={styles.cardTitle}>Teach Breadcrumb About You</Text>
+          <Text style={styles.cardTitle}>Teach Ghosty About You</Text>
         </View>
         <Text style={styles.resumeName}>{profile.resumeName}</Text>
         <Text style={styles.bodyText}>{profile.resumeSummary}</Text>

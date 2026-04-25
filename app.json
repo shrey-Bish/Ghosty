@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Breadcrumb",
-    "slug": "breadcrumb",
+    "name": "Ghosty",
+    "slug": "ghosty",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
@@ -9,7 +9,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "Breadcrumb uses the microphone to capture voice memos after conversations."
+        "NSMicrophoneUsageDescription": "Ghosty uses the microphone to capture voice memos after conversations."
       }
     },
     "android": {
@@ -24,7 +24,7 @@
       [
         "expo-av",
         {
-          "microphonePermission": "Breadcrumb uses the microphone to capture voice memos after conversations."
+          "microphonePermission": "Ghosty uses the microphone to capture voice memos after conversations."
         }
       ]
     ]

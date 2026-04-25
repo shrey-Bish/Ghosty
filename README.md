@@ -1,10 +1,10 @@
-# Breadcrumb
+# Ghosty
 
-Breadcrumb is an AI career companion for conference networking. It helps you prepare before an event, exchange verified contact info, capture voice notes or transcripts, search your relationship history, and send context-aware follow-ups before the moment goes cold.
+Ghosty is an AI career companion for conference networking. It helps you prepare before an event, exchange verified contact info, capture voice notes or transcripts, search your relationship history, and send context-aware follow-ups before the moment goes cold.
 
 ## What Works Now
 - Expo React Native prototype with dark mobile UI.
-- Breadcrumb Prep screen for resume summary, top skills, target roles, and event URL battle planning.
+- Ghosty Prep screen for resume summary, top skills, target roles, and event URL battle planning.
 - Event intelligence demo agents that rank companies, booths, hiring signals, and talking points.
 - Real microphone recording via `expo-av` on iOS/Android with permission handling.
 - Voice capture demo flow with recording, waveform, processing, and contact confirmation.
@@ -63,12 +63,12 @@ Supabase RLS requires a signed-in user. Until auth UI is added, the app keeps us
 src/components/        Voice, contact card, follow-up, dashboard UI
 src/hooks/             Recorder (expo-av), queue, alert state
 src/screens/           Prep, capture, detail, follow-up, dashboard, wand, QR
-src/services/          Breadcrumb agents, Whisper, Claude, scoring, calendar, Supabase
+src/services/          Ghosty agents, Whisper, Claude, scoring, calendar, Supabase
 supabase/              Schema migration and voice-processing edge function
 ```
 
 ## Demo Flow
-1. Open Breadcrumb on the Prep tab.
+1. Open Ghosty on the Prep tab.
 2. Review the resume/skills profile and paste an event URL to generate a battle plan.
 3. Move to Capture, tap the microphone, and stop recording to generate a contact card.
 4. Confirm the card, review the score breakdown, and draft a follow-up.
@@ -76,7 +76,7 @@ supabase/              Schema migration and voice-processing edge function
 6. Ask Magic Wand who can help with a goal and open the recommended contact.
 
 ## Privacy Posture
-Breadcrumb is explicit tap-to-record only. A red pulsing indicator is always visible while recording. The prototype uses local demo data by default; the Supabase schema enforces row-level security so users own their contacts and voice memo metadata.
+Ghosty is explicit tap-to-record only. A red pulsing indicator is always visible while recording. The prototype uses local demo data by default; the Supabase schema enforces row-level security so users own their contacts and voice memo metadata.
 
 ## Remaining Work
 - Add sign-in/sign-up so Supabase RLS persistence can be exercised end to end.

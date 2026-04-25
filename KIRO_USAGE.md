@@ -1,6 +1,6 @@
 # Kiro Workflow Notes
 
-Breadcrumb was built from Kiro-style specs, hooks, and steering docs. The repository includes Kiro-ready artifacts and an implementation that follows them, with real service integrations wired alongside deterministic demo fallbacks.
+Ghosty was built from Kiro-style specs, hooks, and steering docs. The repository includes Kiro-ready artifacts and an implementation that follows them, with real service integrations wired alongside deterministic demo fallbacks.
 
 ## Spec-Driven Development
 The `.kiro/specs/` folder defines the product requirements before implementation:
@@ -9,7 +9,7 @@ The `.kiro/specs/` folder defines the product requirements before implementation
 - `follow-up-pipeline.spec.md` — AI-drafted LinkedIn, email, and cover letter messages
 - `qr-quick-add.spec.md` — QR code identity exchange screen
 - `dashboard.spec.md` — social capital timeline, at-risk contacts, Event Wrapped
-- `breadcrumb-prep.spec.md` — resume/skills setup, event URL battle plan, meeting log assignment, and Magic Wand network search
+- `ghosty-prep.spec.md` — resume/skills setup, event URL battle plan, meeting log assignment, and Magic Wand network search
 
 Each spec maps directly to implemented files in `src/`.
 
@@ -38,12 +38,12 @@ All services follow a dual-path pattern: real API when env vars are present, det
 | Claude drafting | `EXPO_PUBLIC_ANTHROPIC_API_KEY` | Claude API with tone rules | Template-based drafts |
 | Supabase | `EXPO_PUBLIC_SUPABASE_URL` + `EXPO_PUBLIC_SUPABASE_ANON_KEY` + user session | Supabase Postgres with RLS | In-memory Map |
 | Voice recording | Native device | `expo-av` with mic permissions | Simulated waveform + demo URI |
-| Breadcrumb agents | none yet | planned edge functions | deterministic event/log/search intelligence |
+| Ghosty agents | none yet | planned edge functions | deterministic event/log/search intelligence |
 
 ## Implementation Highlights
 - `src/screens/PrepScreen.tsx` implements resume/skills prep, event URL battle planning, and transcript-to-contact assignment.
 - `src/screens/WandScreen.tsx` implements Magic Wand relationship search over contacts and meeting logs.
-- `src/services/breadcrumb.ts` contains the current deterministic event intelligence, transcript analysis, and network search logic.
+- `src/services/ghosty.ts` contains the current deterministic event intelligence, transcript analysis, and network search logic.
 - `src/hooks/useVoiceRecorder.ts` uses `expo-av` `Audio.Recording` with proper permission requests and auto-stop at 60 seconds.
 - `src/services/claude.ts` implements the full extraction prompt from `.kiro/steering/extraction-prompt.md` including date inference, intent tag rules, and uncertainty marking.
 - `src/services/supabase.ts` maps the `Contact` type to the Postgres schema from `supabase/migrations/001_initial_schema.sql`, checks for an authenticated Supabase user before RLS writes, and persists drafts to `follow_up_drafts` when a session exists.

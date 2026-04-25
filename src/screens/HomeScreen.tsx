@@ -70,7 +70,7 @@ export function HomeScreen({
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.wordmark}>Breadcrumb</Text>
+          <Text style={styles.wordmark}>Ghosty</Text>
           <Text style={styles.eventName}>{currentEvent.name}</Text>
           <Text style={styles.eventDate}>{currentEvent.dateLabel}</Text>
         </View>

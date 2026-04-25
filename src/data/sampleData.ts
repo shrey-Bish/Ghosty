@@ -12,7 +12,7 @@ export const userContext = {
   targetRoles: ['Product', 'PM', 'Growth', 'Engineer']
 };
 
-export const breadcrumbProfile: UserProfile = {
+export const ghostyProfile: UserProfile = {
   name: 'Alex Rivera',
   headline: 'Product-minded builder focused on growth systems',
   careerGoal: 'Land a product or growth role',

@@ -15,7 +15,7 @@ export async function analyzeEventUrl(eventUrl: string, profile: UserProfile): P
     return {
       ...company,
       priority: relevant || company.priority === 'High' ? company.priority : 'Medium',
-      whyTarget: `${company.whyTarget} Breadcrumb matched this against ${profile.topSkills.slice(0, 3).join(', ')}.`
+      whyTarget: `${company.whyTarget} Ghosty matched this against ${profile.topSkills.slice(0, 3).join(', ')}.`
     };
   });
 }
@@ -40,7 +40,7 @@ export async function analyzeMeetingTranscript(
     assignedContactId,
     summary:
       sentences[0] ??
-      'Breadcrumb captured the conversation and attached it to this relationship history.',
+      'Ghosty captured the conversation and attached it to this relationship history.',
     keyPoints: sentences.slice(0, 4),
     actionItems: actionItems.length ? actionItems : ['Send a personalized follow-up while context is fresh'],
     createdAt: new Date().toISOString()
